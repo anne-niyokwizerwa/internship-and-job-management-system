@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}My Applications{% endblock %}
+
+{% block content %}
+<section class="dashboard-section">
+    <div class="container">
+        <h1>My Applications</h1>
+        <p>Track your submitted applications.</p>
+
+        {% if applications %}
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Opportunity</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Date Applied</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for application in applications %}
+                            <tr>
+                                <td>{{ application.opportunity.title }}</td>
+                                <td>{{ application.opportunity.opportunity_type }}</td>
+                                <td>{{ application.status }}</td>
+                                <td>{{ application.applied_at|date:"d M Y" }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <p>You have not submitted any applications yet.</p>
+                <a href="{% url 'application_list' %}" class="btn btn-primary">
+                    Browse Opportunities
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

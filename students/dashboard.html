@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-section">
+    <div class="container">
+
+        <h1>Welcome, {{ request.user.first_name }}!</h1>
+
+        <p>
+            Welcome to your student dashboard.
+        </p>
+
+        <div class="dashboard-cards">
+
+            <div class="dashboard-card">
+                <h3>Total Applications</h3>
+                <p>{{ total_applications }}</p>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>University</h3>
+                <p>{{ student.university }}</p>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>Program</h3>
+                <p>{{ student.program }}</p>
+            </div>
+
+        </div>
+
+        <h2>My Recent Applications</h2>
+
+        {% if applications %}
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Opportunity</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Date Applied</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for application in applications %}
+                            <tr>
+                                <td>
+                                    {{ application.opportunity.title }}
+                                </td>
+
+                                <td>
+                                    {{ application.opportunity.opportunity_type }}
+                                </td>
+
+                                <td>
+                                    {{ application.status }}
+                                </td>
+
+                                <td>
+                                    {{ application.applied_at|date:"d M Y" }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        {% else %}
+
+            <p>You have not submitted any applications yet.</p>
+
+            <a href="{% url 'application_create' %}"
+               class="btn btn-primary">
+                Apply Now
+            </a>
+
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}

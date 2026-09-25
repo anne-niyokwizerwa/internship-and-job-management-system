@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Internship System{% endblock %}
+
+{% block content %}
+<section class="portal-home">
+    <div class="container">
+        <div class="portal-heading">
+            <p class="portal-kicker">Internship and Job Management</p>
+            <h1>Choose your workspace</h1>
+            <p>Sign in to find opportunities, manage applications, or run the platform.</p>
+        </div>
+
+        <div class="portal-flow" aria-label="Portal login options">
+            <article class="portal-entry portal-entry-student">
+                <div class="portal-entry-heading">
+                    <span class="portal-number">01</span>
+                    <h2>Student</h2>
+                </div>
+                <p>Browse opportunities, submit applications, and keep your profile ready.</p>
+                <a href="{% url 'accounts:login' %}?role=Student" class="portal-button">Student Login</a>
+            </article>
+
+            <article class="portal-entry portal-entry-company">
+                <div class="portal-entry-heading">
+                    <span class="portal-number">02</span>
+                    <h2>Company</h2>
+                </div>
+                <p>Post jobs, review applicants, and manage your hiring pipeline.</p>
+                <a href="{% url 'accounts:login' %}?role=Company" class="portal-button">Company Login</a>
+            </article>
+
+            <article class="portal-entry portal-entry-admin">
+                <div class="portal-entry-heading">
+                    <span class="portal-number">03</span>
+                    <h2>Admin</h2>
+                </div>
+                <p>Manage users, opportunities, applications, and platform data.</p>
+                <a href="{% url 'admin:login' %}" class="portal-button">Admin Login</a>
+            </article>
+        </div>
+
+        <p class="portal-register">New here? <a href="{% url 'accounts:register' %}">Create an account</a></p>
+    </div>
+</section>
+{% endblock %}

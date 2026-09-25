@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<section class="auth-section">
+    <div class="container">
+
+        <h1>Create an Account</h1>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Username -->
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">
+                    Username
+                </label>
+                {{ form.username }}
+                {{ form.username.errors }}
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}">
+                    Email Address
+                </label>
+                {{ form.email }}
+                {{ form.email.errors }}
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <label for="{{ form.password1.id_for_label }}">
+                    Password
+                </label>
+                {{ form.password1 }}
+                {{ form.password1.errors }}
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group">
+                <label for="{{ form.password2.id_for_label }}">
+                    Confirm Password
+                </label>
+                {{ form.password2 }}
+                {{ form.password2.errors }}
+            </div>
+
+            <!-- Account Type -->
+            <div class="form-group">
+                <label for="role">Account Type:</label>
+
+                <select name="role" id="role" required>
+                    <option value="">Choose account type</option>
+                    <option value="Student">Student</option>
+                    <option value="Company">Company</option>
+                </select>
+            </div>
+
+            <button type="submit">Register</button>
+
+        </form>
+
+    </div>
+</section>
+
+{% endblock %}

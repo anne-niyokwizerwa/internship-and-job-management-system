@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Profile{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="form-container">
+        <div class="form-header">
+            <span class="eyebrow dark">Student</span>
+            <h2>Student Profile</h2>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data" class="auth-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary form-button">Save Profile</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Applications{% endblock %}
+
+{% block content %}
+<div class="container" style="padding: 40px 0;">
+    <h2>Applications</h2>
+    {% if applications %}
+        {% for application in applications %}
+            <div class="card" style="margin-bottom: 20px;">
+                <h3>{{ application.student }} → {{ application.opportunity }}</h3>
+                <p><strong>Status:</strong> {{ application.status }}</p>
+                <p><strong>Applied:</strong> {{ application.applied_at }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No applications have been submitted yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

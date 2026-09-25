@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}{{ opportunity.title }}{% endblock %}
+
+{% block content %}
+<section class="opportunities-section">
+    <div class="container">
+        <article class="opportunity-card">
+            <p class="portal-kicker">{{ opportunity.company.company_name }}</p>
+            <h1>{{ opportunity.title }}</h1>
+            <p><strong>Location:</strong> {{ opportunity.location }}</p>
+            {% if opportunity.category %}
+                <p><strong>Category:</strong> {{ opportunity.category }}</p>
+            {% endif %}
+            {% if opportunity.deadline %}
+                <p><strong>Deadline:</strong> {{ opportunity.deadline }}</p>
+            {% endif %}
+            <p>{{ opportunity.description }}</p>
+
+            {% if user.is_authenticated and user.profile.role == "Student" %}
+                <a href="{% url 'application_create' %}?opportunity={{ opportunity.id }}" class="btn btn-primary">
+                    Apply Now
+                </a>
+            {% elif not user.is_authenticated %}
+                <a href="{% url 'accounts:login' %}?role=Student" class="btn btn-primary">
+                    Student Login to Apply
+                </a>
+            {% endif %}
+        </article>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Company Dashboard{% endblock %}
+
+{% block content %}
+<section class="dashboard-section">
+    <div class="container">
+        <h1>Company Dashboard</h1>
+
+        {% if profile %}
+            <h2>Welcome, {{ profile.company_name }}</h2>
+
+            <div class="dashboard-cards company-actions">
+                <div class="dashboard-card">
+                    <h2>Post Jobs</h2>
+                    <p>Create a new internship or job opportunity.</p>
+                    <a href="{% url 'opportunity_create' %}" class="btn btn-primary">Post New Job</a>
+                </div>
+                <div class="dashboard-card">
+                    <h2>Applications</h2>
+                    <p>Review candidates and update application status.</p>
+                    <a href="#received-applications" class="btn btn-primary">View Applications</a>
+                </div>
+                <div class="dashboard-card">
+                    <h2>Manage Jobs</h2>
+                    <p>Edit or remove opportunities you have posted.</p>
+                    <a href="#your-opportunities" class="btn btn-primary">Manage Jobs</a>
+                </div>
+            </div>
+
+            <a href="{% url 'company_profile' %}" class="btn btn-primary">
+                Edit Company Profile
+            </a>
+
+            <h2 id="your-opportunities">Your Opportunities</h2>
+
+            {% for opportunity in opportunities %}
+                <article class="opportunity-card">
+                    <h3>{{ opportunity.title }}</h3>
+                    <p>{{ opportunity.description }}</p>
+                    <p><strong>Location:</strong> {{ opportunity.location }}</p>
+                    <p><strong>Deadline:</strong> {{ opportunity.deadline }}</p>
+                    <p><strong>Applications:</strong>
+                        {{ opportunity.application_count }}
+                    </p>
+
+                    <a href="{% url 'opportunity_edit' opportunity.id %}"
+                       class="btn btn-primary">
+                        Edit Opportunity
+                    </a>
+
+                    <form method="post"
+                          action="{% url 'opportunity_delete' opportunity.id %}"
+                          style="display: inline;"
+                          onsubmit="return confirm('Delete this opportunity?');">
+                        {% csrf_token %}
+
+                        <button type="submit" class="btn btn-danger">
+                            Delete Opportunity
+                        </button>
+                    </form>
+                </article>
+            {% empty %}
+                <p>You have not posted any opportunities yet.</p>
+            {% endfor %}
+
+            <h2 id="received-applications">Received Applications</h2>
+
+            {% for application in applications %}
+                <article class="application-card">
+                    <h3>{{ application.opportunity.title }}</h3>
+                    <p><strong>Applicant:</strong> {{ application.student }}</p>
+                    <p><strong>Status:</strong> {{ application.status }}</p>
+                    <p><strong>Cover Letter:</strong></p>
+                    <p>{{ application.cover_letter }}</p>
+                    <p><strong>Applied:</strong> {{ application.applied_at }}</p>
+
+                    <form method="post"
+                          action="{% url 'update_application_status' application.id %}">
+                        {% csrf_token %}
+
+                        <select name="status">
+                            <option value="Pending"
+                                {% if application.status == "Pending" %}selected{% endif %}>
+                                Pending
+                            </option>
+                            <option value="Accepted"
+                                {% if application.status == "Accepted" %}selected{% endif %}>
+                                Accepted
+                            </option>
+                            <option value="Rejected"
+                                {% if application.status == "Rejected" %}selected{% endif %}>
+                                Rejected
+                            </option>
+                        </select>
+
+                        <button type="submit" class="btn btn-primary">
+                            Update Status
+                        </button>
+                    </form>
+                </article>
+            {% empty %}
+                <p>No applications received yet.</p>
+            {% endfor %}
+
+        {% else %}
+            <p>Please complete your company profile first.</p>
+
+            <a href="{% url 'company_profile' %}" class="btn btn-primary">
+                Create Company Profile
+            </a>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

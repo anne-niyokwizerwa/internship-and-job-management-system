@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Available Opportunities{% endblock %}
+
+{% block content %}
+<section class="opportunities-section">
+    <div class="container">
+        <div class="opportunities-heading">
+            <p class="section-eyebrow">Career opportunities</p>
+            <h1>Available Opportunities</h1>
+            <p>Find internships and jobs that match your goals.</p>
+        </div>
+
+        <form method="get" class="opportunity-filters">
+            <input
+                type="search"
+                name="q"
+                value="{{ search_query }}"
+                placeholder="Search opportunities..."
+            >
+
+            <select name="category">
+                <option value="">All categories</option>
+                {% for value, label in categories %}
+                    <option value="{{ value }}"
+                        {% if selected_category == value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a href="{% url 'opportunity_list' %}" class="btn">Clear</a>
+        </form>
+
+        <div class="opportunity-list">
+            {% for opportunity in opportunities %}
+                <article class="opportunity-card">
+                    <div class="opportunity-card-header">
+                        <div>
+                            <h2>{{ opportunity.title }}</h2>
+                            <p class="opportunity-company">
+                                {{ opportunity.company.company_name }}
+                            </p>
+                        </div>
+
+                        <span class="opportunity-type">
+                            {{ opportunity.opportunity_type }}
+                        </span>
+                    </div>
+
+                    <div class="opportunity-details">
+                        <div class="opportunity-detail">
+                            <span class="detail-label">Category</span>
+                            <span>{{ opportunity.get_category_display }}</span>
+                        </div>
+
+                        <div class="opportunity-detail">
+                            <span class="detail-label">Location</span>
+                            <span>{{ opportunity.location }}</span>
+                        </div>
+
+                        <div class="opportunity-detail">
+                            <span class="detail-label">Deadline</span>
+                            <span>{{ opportunity.deadline }}</span>
+                        </div>
+                    </div>
+
+                    <p>{{ opportunity.description|truncatewords:30 }}</p>
+
+                    <div class="opportunity-actions">
+                        <a
+                            href="{% url 'opportunity_detail' opportunity.id %}"
+                            class="btn"
+                        >
+                            View Details
+                        </a>
+
+                        <a
+                            href="{% url 'application_create' %}?opportunity={{ opportunity.id }}"
+                            class="btn btn-primary"
+                        >
+                            Apply Now
+                        </a>
+                    </div>
+                </article>
+            {% empty %}
+                <div class="empty-opportunities">
+                    <h2>No opportunities available</h2>
+                    <p>Try changing your search or category.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

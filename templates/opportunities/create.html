@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Post Opportunity{% endblock %}
+
+{% block content %}
+<section class="form-section">
+    <div class="container">
+        <h1>Post an Opportunity</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit" class="btn btn-primary">
+                Publish Opportunity
+            </button>
+        </form>
+    </div>
+</section>
+{% endblock %}

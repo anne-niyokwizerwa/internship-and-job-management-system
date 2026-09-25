@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Apply for Opportunity{% endblock %}
+
+{% block content %}
+<section class="form-section">
+    <div class="container">
+        <h1>Apply for Opportunity</h1>
+
+        <h2>{{ opportunity.title }}</h2>
+        <p><strong>Company:</strong> {{ opportunity.company }}</p>
+        <p><strong>Location:</strong> {{ opportunity.location }}</p>
+        <p>{{ opportunity.description }}</p>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit" class="btn btn-primary">
+                Submit Application
+            </button>
+        </form>
+    </div>
+</section>
+{% endblock %}
